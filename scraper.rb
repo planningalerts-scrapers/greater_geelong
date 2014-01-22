@@ -1,6 +1,7 @@
 require 'scraperwiki'
 require 'nokogiri'
 require 'date'
+require 'iconv'
 
 base_url = 'http://www.geelongaustralia.com.au/residents/planning/'
 applications_url = base_url + 'advertising.aspx'

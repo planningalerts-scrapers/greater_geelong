@@ -1,3 +1,4 @@
+require 'scraperwiki'
 require 'nokogiri'
 require 'date'
 
@@ -32,7 +33,7 @@ table.search('tr.table_body').each do |r|
     :date_scraped => Date.today
   }
 
-  if (ScraperWiki.select("* from swdata where `council_reference`='#{record[:council_reference]}'").empty? rescue true)
+  if (ScraperWiki.select("* from data where `council_reference`='#{record[:council_reference]}'").empty? rescue true)
     ScraperWiki.save_sqlite([:council_reference], record)
   else
     puts "Skipping already saved record " + record[:council_reference]

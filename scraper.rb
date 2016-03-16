@@ -26,8 +26,8 @@ table.search('tr').each do |r|
   on_notice_from = on_notice_from_text.gsub("\u00A0",'').empty? ? nil : Date.parse(r.search('td')[3].inner_text)
 
   record = {
-    :council_reference => r.search('td')[0].inner_text,
-    :address => "#{r.search('td')[1].inner_text.strip}, #{r.search('td')[2].inner_text.strip}",
+    :council_reference => r.search('td')[2].inner_text.strip,
+    :address => "#{r.search('td')[0].inner_text.strip}, #{r.search('td')[1].inner_text.strip}",
     :on_notice_from => on_notice_from,
     :on_notice_to => Date.parse(r.search('td')[4].inner_text),
     :info_url => application_url,

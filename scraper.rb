@@ -3,13 +3,15 @@ require 'nokogiri'
 require 'date'
 require 'iconv'
 
-base_url = 'http://www.geelongaustralia.com.au/residents/planning/'
-applications_url = base_url + 'advertising.aspx'
+base_url = 'http://www.geelongaustralia.com.au/advertisedplanning/'
+applications_url = 'http://www.geelongaustralia.com.au/advertisedplanning/default.aspx'
 html = ScraperWiki.scrape applications_url
 page = Nokogiri.parse html
-table = page.at 'table#ctl00_MainContentPlaceHolder_GridView1'
+table = page.at 'table#ctl00_ContentPlaceHolder1_GridView1'
 
-table.search('tr.table_body').each do |r|
+table.search('tr').each do |r|
+  next if r.at('th')
+
   application_url = base_url + r.at('a').attr('href')
 
   # Cargo culting: http://po-ru.com/diary/fixing-invalid-utf-8-in-ruby-revisited/
@@ -17,7 +19,7 @@ table.search('tr.table_body').each do |r|
   valid_string = ic.iconv(ScraperWiki.scrape(application_url))
 
   # TODO: We don't need to scrape the detail page if we've already saved this DA
-  description = Nokogiri.parse(valid_string).at('#ctl00_MainContentPlaceHolder_FormView2_Label2').inner_text
+  description = Nokogiri.parse(valid_string).at('#ctl00_ContentPlaceHolder1_FormView2_Label2').inner_text
 
   # Some dates are empty
   on_notice_from_text = r.search('td')[3].inner_text

@@ -26,7 +26,7 @@ table.search('tr').each do |r|
   on_notice_from = on_notice_from_text.gsub("\u00A0",'').empty? ? nil : Date.parse(r.search('td')[3].inner_text)
 
   address = "#{r.search('td')[0].inner_text.strip}, #{r.search('td')[1].inner_text.strip}, VIC"
-  
+
   record = {
     :council_reference => r.search('td')[2].inner_text.strip,
     :address => address,
@@ -37,6 +37,6 @@ table.search('tr').each do |r|
     :description => description,
     :date_scraped => Date.today
   }
-  
+
   ScraperWiki.save_sqlite([:council_reference], record)
 end

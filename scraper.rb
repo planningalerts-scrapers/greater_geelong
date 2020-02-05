@@ -6,7 +6,7 @@ base_url = 'http://www.geelongaustralia.com.au/advertisedplanning/'
 applications_url = 'http://www.geelongaustralia.com.au/advertisedplanning/default.aspx'
 html = ScraperWiki.scrape applications_url
 page = Nokogiri.parse html
-table = page.at 'table#ctl00_ContentBody_GV_FINISHED'
+table = page.at 'table#ctl00_ContentBody_GV_CURRENT'
 
 table.search('tr').each do |r|
   next if r.at('th')
@@ -22,7 +22,8 @@ table.search('tr').each do |r|
   record = {
     :council_reference => r.search('td')[2].inner_text.strip,
     :address => address,
-    :on_notice_to => Date.parse(r.search('td')[3].inner_text).to_s,
+    :on_notice_from => Date.parse(r.search('td')[3].inner_text).to_s,
+    :on_notice_to => Date.parse(r.search('td')[4].inner_text).to_s,
     :info_url => application_url,
     :description => description,
     :date_scraped => Date.today.to_s

@@ -12,7 +12,7 @@ GEM
   specs:
     httpclient (2.8.3)
     mini_portile2 (2.4.0)
-    nokogiri (1.10.7)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     sqlite3 (1.4.2)
     sqlite_magic (0.0.6)

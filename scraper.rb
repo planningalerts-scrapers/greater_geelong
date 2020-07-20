@@ -1,11 +1,11 @@
 require 'scraperwiki'
-require 'nokogiri'
+require 'mechanize'
 require 'date'
 
 base_url = 'http://www.geelongaustralia.com.au/advertisedplanning/'
 applications_url = 'http://www.geelongaustralia.com.au/advertisedplanning/default.aspx'
-html = ScraperWiki.scrape applications_url
-page = Nokogiri.parse html
+agent = Mechanize.new
+page = agent.get(applications_url)
 table = page.at 'table#ctl00_ContentBody_GV_CURRENT'
 
 table.search('tr').each do |r|
@@ -14,7 +14,7 @@ table.search('tr').each do |r|
   application_url = base_url + r.at('a').attr('href')
 
   # TODO: We don't need to scrape the detail page if we've already saved this DA
-  detail_page = Nokogiri.parse(ScraperWiki.scrape(application_url))
+  detail_page = agent.get(application_url)
   description = detail_page.at("#ctl00_ContentBody_FV_MAIN_P_COMMENT").next_element.inner_text.strip
 
   address = "#{r.search('td')[0].inner_text.strip}, #{r.search('td')[1].inner_text.strip}, VIC"

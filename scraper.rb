@@ -28,5 +28,6 @@ table.search('tr').each do |r|
     :description => description,
     :date_scraped => Date.today.to_s
   }
+  puts "Saving #{record[:council_reference]}..."
   ScraperWiki.save_sqlite([:council_reference], record)
 end

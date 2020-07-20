@@ -5,6 +5,13 @@ require 'date'
 base_url = 'http://www.geelongaustralia.com.au/advertisedplanning/'
 applications_url = 'http://www.geelongaustralia.com.au/advertisedplanning/default.aspx'
 agent = Mechanize.new
+if ENV["MORPH_AUSTRALIAN_PROXY"]
+  # On morph.io set the environment variable MORPH_AUSTRALIAN_PROXY to
+  # http://morph:password@au.proxy.oaf.org.au:8888 replacing password with
+  # the real password.
+  puts "Using Australian proxy..."
+  agent.agent.set_proxy(ENV["MORPH_AUSTRALIAN_PROXY"])
+end
 page = agent.get(applications_url)
 table = page.at 'table#ctl00_ContentBody_GV_CURRENT'
 

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 
 ruby "3.2.2"
 
 gem "mechanize", "~> 2.8.5"
-gem "nokogiri", "~> 1.15.0"
+gem "nokogiri", "~> 1.15.6" # "~> 1.18.10"
 gem "rake", "~> 12.3"
 gem "rspec", "~> 3.0"
 gem "rubocop"

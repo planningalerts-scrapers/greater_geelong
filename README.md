@@ -21,6 +21,8 @@ Saving 391/2023/A...
 Saving 548/2025...
 ```
 
+Execution time ~ 4 seconds.
+
 ## To run style and coding checks
 
 ```

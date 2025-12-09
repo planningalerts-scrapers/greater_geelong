@@ -29,3 +29,9 @@ Execution time ~ 4 seconds.
 bundle exec rubocop
 ```
 
+## To check for security updates
+
+```
+gem install bundler-audit
+bundle-audit
+```

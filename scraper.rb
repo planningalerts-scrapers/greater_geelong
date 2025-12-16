@@ -1,9 +1,9 @@
-require 'scraperwiki'
-require 'mechanize'
-require 'date'
+require "scraperwiki"
+require "mechanize"
+require "date"
 
-base_url = 'http://www.geelongaustralia.com.au/advertisedplanning/'
-applications_url = 'http://www.geelongaustralia.com.au/advertisedplanning/default.aspx'
+base_url = "http://www.geelongaustralia.com.au/advertisedplanning/"
+applications_url = "http://www.geelongaustralia.com.au/advertisedplanning/default.aspx"
 agent = Mechanize.new
 if ENV["MORPH_AUSTRALIAN_PROXY"]
   # On morph.io set the environment variable MORPH_AUSTRALIAN_PROXY to
@@ -13,12 +13,12 @@ if ENV["MORPH_AUSTRALIAN_PROXY"]
   agent.agent.set_proxy(ENV["MORPH_AUSTRALIAN_PROXY"])
 end
 page = agent.get(applications_url)
-table = page.at 'table#ctl00_ContentBody_GV_CURRENT'
+table = page.at "table#ctl00_ContentBody_GV_CURRENT"
 
-table.search('tr').each do |r|
-  next if r.at('th')
+table.search("tr").each do |r|
+  next if r.at("th")
 
-  application_url = base_url + r.at('a').attr('href')
+  application_url = base_url + r.at("a").attr("href")
 
   # TODO: We don't need to scrape the detail page if we've already saved this DA
   detail_page = agent.get(application_url)
@@ -27,13 +27,13 @@ table.search('tr').each do |r|
   address = "#{r.search('td')[0].inner_text.strip}, #{r.search('td')[1].inner_text.strip}, VIC"
 
   record = {
-    :council_reference => r.search('td')[2].inner_text.strip,
-    :address => address,
-    :on_notice_from => Date.parse(r.search('td')[3].inner_text).to_s,
-    :on_notice_to => Date.parse(r.search('td')[4].inner_text).to_s,
-    :info_url => application_url,
-    :description => description,
-    :date_scraped => Date.today.to_s
+    council_reference: r.search("td")[2].inner_text.strip,
+    address: address,
+    on_notice_from: Date.parse(r.search("td")[3].inner_text).to_s,
+    on_notice_to: Date.parse(r.search("td")[4].inner_text).to_s,
+    info_url: application_url,
+    description: description,
+    date_scraped: Date.today.to_s,
   }
   puts "Saving #{record[:council_reference]}..."
   ScraperWiki.save_sqlite([:council_reference], record)
